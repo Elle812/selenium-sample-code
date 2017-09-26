@@ -45,7 +45,5 @@ public class TargetMainPageTest extends BaseSeleniumTest {
         assertThat(webDriver.getCurrentUrl(), equalTo(TargetWebsite.URL_AFTER_SEARCH + "dress"));
         assertThat(webDriver.getTitle(), equalTo("dress : Target"));
         Thread.sleep(5000);
-
-        webDriver.quit();
     }
 }

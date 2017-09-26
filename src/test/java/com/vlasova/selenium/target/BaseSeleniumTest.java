@@ -18,7 +18,7 @@ public abstract class BaseSeleniumTest {
         }
         WEB_DRIVER_TYPE = WebDriverType.valueOf(webDriverName);
 
-        String pathToChromeDriverBinary = Paths.get(System.getenv("user.dir"), "dist", "chromedriver").toString();
+        String pathToChromeDriverBinary = Paths.get(System.getProperty("user.dir"), "dist", "chromedriver").toString();
         System.setProperty("webdriver.chrome.driver", pathToChromeDriverBinary);
     }
 
