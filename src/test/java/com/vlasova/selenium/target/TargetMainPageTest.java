@@ -29,21 +29,43 @@ public class TargetMainPageTest extends BaseSeleniumTest {
 
     @Test(description = "Launch browser and open URL http://www.target.com ")
     public void openMainPageTest() throws InterruptedException {
-        webDriver.get(TargetWebsite.URL);
-        assertThat(webDriver.getTitle(), equalTo(TargetWebsite.TITLE_MAIN_PAGE));
+        webDriver.get(TargetWebsiteElements.URL);
+        assertThat(webDriver.getTitle(), equalTo(TargetWebsiteElements.TITLE_MAIN_PAGE));
         Thread.sleep(5000);
     }
 
     @Test
     public void fillSearchTextField() throws InterruptedException {
-        webDriver.get(TargetWebsite.URL);
-        webDriver.findElement(By.id(TargetWebsite.SEARCH_LABEL)).click();
+        webDriver.get(TargetWebsiteElements.URL);
+        webDriver.findElement(By.id(TargetWebsiteElements.SEARCH_LABEL)).click();
         Thread.sleep(1000);
-        webDriver.findElement(By.id(TargetWebsite.SEARCH_TEXTFIELD)).sendKeys("dress");
-        webDriver.findElement(By.id(TargetWebsite.SEARCH_TEXTFIELD)).sendKeys(Keys.ENTER);
+        webDriver.findElement(By.id(TargetWebsiteElements.SEARCH_TEXTFIELD)).sendKeys("dress");
+        webDriver.findElement(By.id(TargetWebsiteElements.SEARCH_TEXTFIELD)).sendKeys(Keys.ENTER);
         Thread.sleep(1000);
-        assertThat(webDriver.getCurrentUrl(), equalTo(TargetWebsite.URL_AFTER_SEARCH + "dress"));
+        assertThat(webDriver.getCurrentUrl(), equalTo(TargetWebsiteElements.URL_AFTER_SEARCH + "dress"));
         assertThat(webDriver.getTitle(), equalTo("dress : Target"));
         Thread.sleep(5000);
+    }
+
+    @Test
+    public void addItemToCart() throws InterruptedException {
+        String searchTarget = "Aveeno Baby Wash";
+        webDriver.get(TargetWebsiteElements.URL);
+        webDriver.findElement(By.id(TargetWebsiteElements.SEARCH_LABEL)).click();
+        webDriver.findElement(By.id(TargetWebsiteElements.SEARCH_TEXTFIELD)).sendKeys(searchTarget);
+        webDriver.findElement(By.id(TargetWebsiteElements.SEARCH_TEXTFIELD)).sendKeys(Keys.ENTER);
+        assertThat(webDriver.getCurrentUrl(),
+                equalTo(TargetWebsiteElements.URL_AFTER_SEARCH + "Aveeno+Baby+Wash"));
+        assertThat(webDriver.getTitle(), equalTo(searchTarget + " : Target"));
+        Thread.sleep(5000);
+        webDriver.findElement(By.className(TargetWebsiteElements.PRODUCT_LINK)).click();
+        Thread.sleep(3000);
+        webDriver.findElement(By.xpath(TargetWebsiteElements.ADD_TO_CART)).click();
+        Thread.sleep(3000);
+        webDriver.findElement(By.xpath(TargetWebsiteElements.VIEW_CART_AND_CHECKOUT)).click();
+        Thread.sleep(3000);
+        webDriver.findElement(By.className(TargetWebsiteElements.READY_TO_CHECKOUT)).click();
+        assertThat(webDriver.getCurrentUrl(), equalTo(TargetWebsiteElements.SIGN_IN_OR_CREATE_AN_ACCOUNT_URL));
+        Thread.sleep(2000);
     }
 }
